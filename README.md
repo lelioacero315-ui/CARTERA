@@ -60,6 +60,7 @@ Además:
 * **Deshacer:** cualquier cruce se puede revertir con el botón ↩.
 * **Sin duplicados:** lo ya conciliado queda bloqueado. Si se vuelve a cargar el mismo extracto, no se repite.
 * Todo queda registrado en la **bitácora**.
+* **Excel de conciliación:** una hoja de entradas, salidas y gastos por banco. La columna Estado muestra los mismos tres resultados de la app: CONCILIADO, NO CONCILIADO y REVISAR (en salidas, PENDIENTE DE PAGO); las partidas anuladas por nota crédito dicen ANULADO.
 
 \---
 
@@ -68,6 +69,7 @@ Además:
 * **Los datos viven en el navegador del equipo donde se usa la app**, cifrados con **AES-GCM de 256 bits**. La clave se deriva de la contraseña con PBKDF2 (150.000 iteraciones).
 * **Nada se envía a un servidor.** La única conexión que hace la app es consultar su propia página para avisar si hay una versión nueva.
 * Acceso con **contraseña** y **código de recuperación**, más un **modo consulta** de solo lectura.
+* **Borrado total:** solo desde Configuración › Seguridad › Zona de peligro, escribiendo ELIMINAR TODO.
 * **Respaldos (.eabak):** si se borra el navegador o se cambia de equipo, los datos se pierden. Descargue respaldos con frecuencia y guárdelos fuera del equipo.
 * ⚠️ **Este repositorio es público. Nunca suba aquí extractos, auxiliares, informes de cartera ni respaldos.** Solo va el código de la app.
 
@@ -95,7 +97,7 @@ Los datos no se pierden al actualizar, porque están en el navegador y no en el 
 
 |Versión|Cambios principales|
 |-|-|
-|3.8|Navegación en 5 módulos; Proyección semanal de recaudo; Control de asesores; cruces nuevos (uno a varios, pasarela con VERIFICAR, más formatos de fecha); conciliación manual y deshacer; corrección de botones duplicados; manual "Cómo funciona" actualizado|
+|3.8|Navegación en 5 módulos; Proyección semanal de recaudo; Control de asesores; cruces nuevos (uno a varios, pasarela con VERIFICAR, más formatos de fecha); conciliación manual y deshacer; Excel de conciliación con estados correctos (REVISAR, PENDIENTE DE PAGO, ANULADO) y número de CE en salidas; borrado total solo desde la zona protegida; Banco de Occidente en la carga; corrección de botones duplicados; manual "Cómo funciona" actualizado|
 |3.7|Versión anterior|
 
 \---

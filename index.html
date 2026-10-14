@@ -535,6 +535,7 @@ tr.rc-naranja{background:rgba(255,237,213,.5)}
             <option value="BANCOLOMBIA">Bancolombia</option>
             <option value="BOGOTA">Banco de Bogotá</option>
             <option value="BBVA">BBVA</option>
+            <option value="OCCIDENTE">Banco de Occidente</option>
             <option value="OTRO">Otro</option>
           </select>
         </div>
@@ -606,7 +607,7 @@ tr.rc-naranja{background:rgba(255,237,213,.5)}
           <option value="OTRO">Otro</option>
         </select>
       </div>
-      <button class="btn ghost" id="btnDedupExistentes" style="margin:4px 0 8px" onclick="dedupExistentes()">🧹 Eliminar duplicados guardados</button> <span style="font-size:11px;color:#888;margin-left:8px">Versión 3.0 · descarga corregida en todos los módulos</span>
+      <button class="btn ghost" id="btnDedupExistentes" style="margin:4px 0 8px" onclick="dedupExistentes()">🧹 Eliminar duplicados guardados</button>
       <div class="stats" id="stats"></div>
       <div class="tools">
         <span class="mini" style="font-weight:600">Filtrar:</span>
@@ -945,7 +946,8 @@ tr.rc-naranja{background:rgba(255,237,213,.5)}
       </div>
     </div>
     <div class="card" style="margin-top:14px;border-top:3px solid #2E7D32">
-      <h3 style="margin:0 0 8px">5. Proyección de Recaudo — Método A (condición de pago) y Método B (eficacia)</h3>
+      <h3 style="margin:0 0 8px">5. Proyección mensual de recaudo por ventas — Método A (condición de pago) y Método B (eficacia)</h3>
+      <div class="mini" style="margin:-4px 0 8px;color:#666">Estima el recaudo del mes a partir de las <b>ventas</b>. La proyección por <b>vencimientos</b>, semana a semana, está en Cartera › Proyección semanal.</div>
       <div class="sub">Método A: ventas × % de cobro por línea y mes de rezago. Método B: ventas × % eficacia histórica.</div>
 
       <div style="margin-top:10px">
@@ -1203,7 +1205,7 @@ tr.rc-naranja{background:rgba(255,237,213,.5)}
     <div class="gsec" id="g-venc" style="display:none">
       <div class="card">
         <h2>Facturas que vencen esta semana</h2>
-        <div class="sub">Reporte detallado por cliente de las facturas con vencimiento en la semana seleccionada, para gestión de cobro. Usa la cartera cargada en la pestaña «Cartera».</div>
+        <div class="sub">Reporte detallado por cliente de las facturas con vencimiento en la semana seleccionada, para gestión de cobro. Usa la cartera cargada en <b>Cartera › Estado y edades</b>.</div>
         <div class="row" style="align-items:flex-end">
           <div class="field" style="max-width:190px"><label>Semana desde</label><input type="date" id="vDesde"></div>
           <div class="field" style="max-width:190px"><label>Semana hasta</label><input type="date" id="vHasta"></div>
@@ -1553,7 +1555,7 @@ tr.rc-naranja{background:rgba(255,237,213,.5)}
         <button class="btn sm" id="btnGuardarConcil">💾 Guardar conciliación (Excel) ahora</button>
         <div style="flex:1"></div>
         <button class="btn sec sm" id="btnExportBitacora">⭳ Exportar bitácora</button>
-        <button class="btn sec sm" id="btnReset" style="color:#B91C1C">Borrar todos los datos</button>
+        <button class="btn sec sm" id="btnReset" style="color:#B91C1C">Borrar todos los datos…</button>
       </div>
       <div class="mini" style="color:var(--muted);margin-bottom:8px">✓ <b>La bitácora se guarda automáticamente</b> (cifrada) cada vez que ingresas información. Con «Exportar bitácora» descargas el Excel actualizado cuando quieras; con «Guardar conciliación» generas el Excel completo de las 3 hojas.</div>
       <div class="tbl-wrap">
@@ -1636,7 +1638,7 @@ tr.rc-naranja{background:rgba(255,237,213,.5)}
       </div>
 
 
-      <div class="hint" style="margin-top:22px;background:#FEF2F2;border-color:#B91C1C">⚠ <b>Importante:</b> si pierdes la contraseña Y las tres vías de recuperación, los datos no se pueden descifrar — ni Anthropic ni nadie puede recuperarlos. Es el precio del cifrado fuerte que elegiste.</div>
+      <div class="hint" style="margin-top:22px;background:#FEF2F2;border-color:#B91C1C">⚠ <b>Importante:</b> si pierdes la contraseña Y las tres vías de recuperación, los datos no se pueden descifrar — nadie puede recuperarlos. Es el precio del cifrado fuerte que elegiste.</div>
     </div>
   </div>
 
@@ -1671,7 +1673,7 @@ tr.rc-naranja{background:rgba(255,237,213,.5)}
       <h3 class="sec-t">Informe semanal</h3>
       <p>Clasifica el recaudo por las 4 líneas de negocio según el prefijo de factura: <span class="badge-line b-EI">EI</span> Industrial · <span class="badge-line b-EM">EM</span> Medicinal · <span class="badge-line b-EH">EH</span> IPS · <span class="badge-line b-ES">ES</span> Sertec. Puedes cargar el estado de cartera para traer el valor en mora por línea al día del informe.</p>
       <h3 class="sec-t">Tus datos</h3>
-      <p>Todo se guarda en este navegador (no viaja a ningún servidor). Usa <b>Exportar</b> para respaldos y <b>Borrar todos los datos</b> para reiniciar.</p>
+      <p>Todo se guarda en este navegador (no viaja a ningún servidor). Usa <b>Configuración › Seguridad › Generar respaldo ahora</b> para respaldos (.eabak). El reinicio total solo se hace en la Zona de peligro de Seguridad.</p>
     </div>
   </div>
 
@@ -4059,8 +4061,12 @@ async function exportConciliacionColor(){
             c.font={name:'Arial',size:9,color:{argb:(typeof v==='number'&&v<0)?EA_ROJO:'FF000000'}};
           } else if(ci===idxEstado){
             // Estado DINÁMICO en ENTRADAS/SALIDAS: fórmula que verifica si hay Doc (col H) Y Valor libros (col J)
-            if(estadoDinamico){
-              c.value={formula:'IF(AND(H'+r+'<>"",J'+r+'<>""),"CONCILIADO","NO CONCILIADO")', result:(fila[7]&&fila[9]?'CONCILIADO':'NO CONCILIADO')};
+            // v3.8: tres resultados, igual que la app. Banco (E) + documento (H) = CONCILIADO; solo banco = NO CONCILIADO;
+            // solo documento = REVISAR (entradas) o PENDIENTE DE PAGO (salidas). Los anulados por NC conservan "ANULADO".
+            if(estadoDinamico && fila[0]!=='ANULADO'){
+              const sinBanco=(typeof estadoDinamico==='string')?estadoDinamico:'REVISAR';
+              const res=(fila[4]!==''&&fila[7]!=='')?'CONCILIADO':(fila[4]!==''?'NO CONCILIADO':sinBanco);
+              c.value={formula:'IF(AND(E'+r+'<>"",H'+r+'<>""),"CONCILIADO",IF(E'+r+'<>"","NO CONCILIADO","'+sinBanco+'"))', result:res};
             }
             c.font={name:'Arial',size:9,bold:true,color:{argb:col.txt}}; c.alignment={horizontal:'center',vertical:'middle'};
           } else { c.font={name:'Arial',size:9}; c.alignment={horizontal:'left',vertical:'middle'}; }
@@ -4080,7 +4086,13 @@ async function exportConciliacionColor(){
           {type:'containsText',operator:'containsText',text:'NO CONCILIADO',priority:1,
            style:{font:{bold:true,color:{argb:EA_NARANJA}},fill:{type:'pattern',pattern:'solid',bgColor:{argb:'FFFDF0E6'}}}},
           {type:'containsText',operator:'containsText',text:'CONCILIADO',priority:2,
-           style:{font:{bold:true,color:{argb:EA_VERDE}},fill:{type:'pattern',pattern:'solid',bgColor:{argb:'FFE8F5E9'}}}}
+           style:{font:{bold:true,color:{argb:EA_VERDE}},fill:{type:'pattern',pattern:'solid',bgColor:{argb:'FFE8F5E9'}}}},
+          {type:'containsText',operator:'containsText',text:'REVISAR',priority:3,
+           style:{font:{bold:true,color:{argb:'FF7C3AED'}},fill:{type:'pattern',pattern:'solid',bgColor:{argb:'FFF3EEFB'}}}},
+          {type:'containsText',operator:'containsText',text:'PENDIENTE DE PAGO',priority:4,
+           style:{font:{bold:true,color:{argb:'FF7C3AED'}},fill:{type:'pattern',pattern:'solid',bgColor:{argb:'FFF3EEFB'}}}},
+          {type:'containsText',operator:'containsText',text:'ANULADO',priority:5,
+           style:{font:{bold:true,color:{argb:'FF888888'}},fill:{type:'pattern',pattern:'solid',bgColor:{argb:'FFF0F2F5'}}}}
         ]});
       }
     }
@@ -4107,10 +4119,10 @@ async function exportConciliacionColor(){
     // Por cada banco, generar sus hojas (solo si tiene datos de ese tipo)
     bancos.forEach(bk=>{
       const nb=nombreBanco(bk);
-      const fE=(DB.entradas||[]).filter(e=>(e.banco||'SIN BANCO')===bk).map(e=>[estadoTxt(e.estado),e.fuente||(e.rc?'Banco+Libros':'Banco'),e.fechaBanco||'',e.concepto||'',e.valorBanco||'',e.fechaLibros||'',e.tipo||'',e.rc||'',e.detalle||'',e.valorLibros||'',e.obs||'']);
-      if(fE.length) hojaColor(('ENT '+nb).slice(0,31),hE,fE,0,[4,9],true);
-      const fS=(DB.salidas||[]).filter(e=>(e.banco||'SIN BANCO')===bk).map(e=>[estadoTxt(e.estado),e.fuente||'Banco',e.fechaBanco||'',e.concepto||'',e.valorBanco||'',e.fechaLibros||'',e.tipo||'',e.rc||'',e.detalle||'',e.valorLibros||'',e.obs||'']);
-      if(fS.length) hojaColor(('SAL '+nb).slice(0,31),hS,fS,0,[4,9],true);
+      const fE=(DB.entradas||[]).filter(e=>(e.banco||'SIN BANCO')===bk).map(e=>[estadoTxt(e.estado),e.fuente||(e.rc?'Banco+Libros':'Banco'),e.fechaBanco||'',e.concepto||'',e.valorBanco||'',e.fechaLibros||'',e.tipo||'',e.rc||e.rcGrupo||'',e.detalle||'',e.valorLibros||'',e.obs||'']);
+      if(fE.length) hojaColor(('ENT '+nb).slice(0,31),hE,fE,0,[4,9],'REVISAR');
+      const fS=(DB.salidas||[]).filter(e=>(e.banco||'SIN BANCO')===bk).map(e=>[estadoTxt(e.estado),e.fuente||'Banco',e.fechaBanco||'',e.concepto||'',e.valorBanco||'',e.fechaLibros||'',e.tipo||'',e.ce||e.rc||'',e.detalle||'',e.valorLibros||'',e.obs||'']);
+      if(fS.length) hojaColor(('SAL '+nb).slice(0,31),hS,fS,0,[4,9],'PENDIENTE DE PAGO');
       const fG=(DB.fees||[]).filter(g=>(g.banco||'SIN BANCO')===bk).map(g=>['NO CONCILIADO','Banco',g.fecha||'',g.desc||g.concepto||'',g.valor||'','Gasto bancario: '+(g.clas||'')]);
       if(fG.length) hojaColor(('GASTOS '+nb).slice(0,31),hG,fG,0,[4]);
     });
@@ -6267,6 +6279,10 @@ function afExport(){
 
 /* ============ Reset ============ */
 document.getElementById('btnReset').onclick=async()=>{
+  // v3.8: el borrado total solo se hace desde Configuración › Seguridad (pide escribir ELIMINAR TODO y respaldo .eabak)
+  alert('Por seguridad, el borrado total se hace en Configuración › Seguridad y respaldo › Zona de peligro.\n\nAllá debe escribir ELIMINAR TODO. Antes, genere un respaldo .eabak: es el único archivo con el que se pueden recuperar los datos.');
+  try{navIr('seguridad');setTimeout(()=>{const z=document.getElementById('resetConfirmText');if(z)z.scrollIntoView({behavior:'smooth',block:'center'});},300);}catch(e){}
+  return;
   if(confirm('Esto borra toda la conciliación, salidas, gastos, bitácora y cartera guardados en este navegador. ¿Continuar?')){
     // GUARDAR TRABAJO ANTES DE BORRAR: ofrece descargar respaldo primero
     const hayDatos=(DB.entradas&&DB.entradas.length)||(DB.salidas&&DB.salidas.length)||(DB.fees&&DB.fees.length);
